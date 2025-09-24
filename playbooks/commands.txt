@@ -1,2 +1,2 @@
-ansible-playbook -k -i ../config/hosts.ini runLauraTester.yml
-ansible-playbook -k -i ../config/hosts.ini runAbletonLink.yml
+ansible-playbook -k -i ./hosts/hosts.ini runLauraTester.yml
+ansible-playbook -k -i ./hosts/hosts.ini runAbletonLink.yml
