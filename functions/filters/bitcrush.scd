@@ -14,7 +14,7 @@ s.waitForBoot({
 
     {
         SynthDef(\sampleLayer, {
-            | buf, out = 0, volume = 0.1, pitchRatio = 1, infVerb = 0, lpfFreq = 20000,
+            | buf, out = 0, volume = 1, pitchRatio = 1, infVerb = 0, lpfFreq = 20000,
               bitcrushOn = 1, bitcrushRate = 1000, bitcrushBits = 24 |  // <-- defaults set here
             var sound, finalSound, reverb, filtered, bitcrushed;
 
