@@ -26,7 +26,7 @@ s.waitForBoot({
             \buf, ~forestBuffer,
             \out, i,
             \pitchShiftAmount, 2,   // no shift by default
-            \gain, 0.5
+            \gain, 1
         ])
     };
 });
