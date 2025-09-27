@@ -1,5 +1,7 @@
 s.waitForBoot({
     // load buffer from one directory up
+
+
 	var result;
 	{
 
@@ -26,12 +28,12 @@ result[1].postln;
 	}.();
 
 	{
-		var path = thisProcess.nowExecutingPath.dirname +/+ "../media" +/+ "industrial" +/+ result[0] +/+ result[1] ++ ".wav";
+		var path = thisProcess.nowExecutingPath.dirname +/+ "../media" +/+ "marine" +/+ result[0] +/+ result[1] ++ ".wav";
     ~sampleLayerBuffer = Buffer.read(s, path);
 
     // simple playback synth, no FX
     SynthDef(\simplePlay, {
-        | buf, out = 0, rate = 1, loop = 1, gain = 1 |
+        | buf, out = 0, rate = 1, loop = 0, gain = 1 |
         var sound;
         sound = PlayBuf.ar(
             numChannels: 2,   // stereo file
@@ -54,4 +56,14 @@ result[1].postln;
 	}.();
 
 
+
+
+
+
+
 	});
+
+
+
+
+

@@ -41,10 +41,12 @@ s.waitForBoot({
         s.sync;
 
         // start immediately, bitcrush ON @ 1000 Hz by default
-        ~sampleLayerSynths = [0, 2].collect { |i|
+        ~sampleLayerSynths = [0].collect { |i|
             Synth(\sampleLayer, [
-                \buf, ~sampleLayerBuffer,    // you can also pass ~sampleLayerBuffer.bufnum
-                \out, i
+                \buf, ~forestBuffer,
+            \out, i,
+            \pitchShiftAmount, 2,   // no shift by default
+            \gain, 1
                 // no GUI; defaults handle bitcrush
             ])
         };

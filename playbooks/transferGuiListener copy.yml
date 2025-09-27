@@ -1,0 +1,80 @@
+- name: Start fully connected Jacktrip Mesh
+  hosts: nodes
+  gather_facts: false
+  vars:
+    # optional default if you don't pass -e soundscape=...
+    soundscape: "rainforest"
+
+  tasks:
+    - name: Kill all SuperCollider things
+      command: killall -9 sclang scsynth
+      ignore_errors: true
+
+    - name: Kill p2psc
+      command: killall -9 p2psc
+      ignore_errors: true
+
+    - name: Kill all JackTrip things
+      command: killall -9 jacktrip
+      ignore_errors: true
+
+    - name: Kill qjackctl
+      command: killall -9 qjackctl
+      ignore_errors: true
+
+    - name: Kill jackd
+      command: killall -9 jackd
+      ignore_errors: true
+
+    - name: Kill python3
+      command: killall -9 python3
+      ignore_errors: true
+
+    - name: p2psc
+      shell: p2psc
+      async: 2592000
+      poll: 0
+
+    - name: Pause briefly to let p2psc start
+      pause:
+        seconds: 2
+
+    - name: Copy GUIListener.scd to remote Desktop
+      copy:
+        src: /Users/orlando/Desktop/SITE/GUIListener.scd
+        dest: /home/student/Desktop/SITE/GUIListener.scd
+        mode: '0644'
+
+    - name: Copy PixelGUI.py to remote Desktop
+      copy:
+        src: /Users/orlando/Desktop/SITE/PixelGUI.py
+        dest: /home/student/Desktop/SITE/PixelGUI.py
+        mode: '0644'
+
+    - name: Launch Python GUI (background)
+      become: false
+      environment:
+        DISPLAY: ":0"
+        XAUTHORITY: "/home/student/.Xauthority"
+      shell: >
+        nohup python3 /home/student/Desktop/SITE/PixelGUI.py "{{ soundscape }}"
+        > /home/student/PixelGUI.log 2>&1 &
+      args:
+        chdir: /home/student/Desktop/SITE
+
+    - name: Pause briefly to let GUI start
+      pause:
+        seconds: 2
+
+    - name: Run SuperCollider script (background)
+      become: false
+      environment:
+        DISPLAY: ":0"
+        XAUTHORITY: "/home/student/.Xauthority"
+      shell: >
+        nohup sclang /home/student/Desktop/SITE/GUIListener.scd "{{ soundscape }}"
+        > /home/student/GUIListener.log 2>&1 &
+      args:
+        chdir: /home/student/Desktop/SITE
+      async: 0
+      poll: 0
