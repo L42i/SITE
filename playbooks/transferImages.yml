@@ -1,0 +1,24 @@
+- name: Start fully connected Jacktrip Mesh
+  hosts: nodes
+  gather_facts: false
+  tasks:
+  # Kill any existing processes related to the mesh
+ 
+
+
+  - name: Ensure SITE/media/images exists on remote
+    ansible.builtin.file:
+      path: /home/student/Desktop/SITE/media/images
+      state: directory
+      mode: '0755'
+      recurse: yes
+
+  - name: Copy entire images directory recursively
+    ansible.builtin.copy:
+      src: /Users/orlando/Desktop/SITE/media/images/
+      dest: /home/student/Desktop/SITE/media/images/
+      mode: '0644'
+
+
+  vars:
+    base_port: 4464

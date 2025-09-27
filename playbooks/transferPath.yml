@@ -1,0 +1,56 @@
+- name: Start fully connected Jacktrip Mesh
+  hosts: nodes
+  gather_facts: false
+  tasks:
+  # Kill any existing processes related to the mesh
+  - name: Kill all SuperCollider things
+    command: killall -9 sclang scsynth
+    ignore_errors: true
+
+  - name: Kill all SuperCollider things
+    command: killall -9 p2psc
+    ignore_errors: true
+
+  - name: Kill all JackTrip things
+    command: killall -9 jacktrip
+    ignore_errors: true
+
+  - name: Kill all qjacks
+    command: killall -9 qjackctl
+    ignore_errors: true
+
+  - name: Kill all jackd things
+    command: killall -9 jackd
+    ignore_errors: true
+
+  - name: p2psc
+    shell: |
+      p2psc
+    async: 2592000
+    poll: 0
+
+  - name: Pause briefly to let p2psc start
+    pause:
+      seconds: 2
+
+
+  # Copy path.scd to each node's Desktop
+  - name: Copy path.scd to remote Desktop
+    copy:
+      src: /Users/orlando/Desktop/SITE/functions/path.scd
+      dest: /home/student/Desktop/SITE/functions/path.scd
+      mode: '0644'
+
+  - name: Pause briefly to let p2psc start
+    pause:
+      seconds: 2
+
+  - name: run sc script
+    shell: |
+      export DISPLAY=:0.0
+      sclang /home/student/Desktop/SITE/functions/path.scd
+    async: 2592000
+    poll: 0
+
+  vars:
+    base_port: 4464
